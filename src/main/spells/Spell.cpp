@@ -8,16 +8,15 @@ using namespace std;
 class Spell {
     private:
         string name;
-        int damage;
 
     public:
         string getName() { return this->name; }
-        int getDamage() { return this->damage; }
 
-        Spell(string name, int damage) {
+        Spell(string name) {
             this->name = name;
-            this->damage = damage;
         }
+
+        virtual int getDamage(int hp, int maxHp) = 0;
 };
 
 #endif

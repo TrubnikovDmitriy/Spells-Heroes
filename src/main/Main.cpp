@@ -1,7 +1,12 @@
 #include <iostream>
+#include <list>
 
 #include "spells/Fireball.cpp"
+#include "spells/LifeDrain.cpp"
+#include "spells/PoisonCloud.cpp"
 
+#include "targets/Target.cpp"
+#include "targets/ArmorKnight.cpp"
 #include "targets/Ogre.cpp"
 
 using namespace std;
@@ -11,12 +16,32 @@ void printDamage(Spell* spell, Target* target, int damage) {
 }
 
 int main() {
-    Spell* spell = new Fireball();
-    Target* target = new Ogre();
+    std::list<Spell*> spells;
+    spells.push_back(new Fireball());
+    spells.push_back(new LifeDrain());
+    spells.push_back(new PoisonCloud());
 
-    while (target->getHp() != 0) {
-        int damage = target->hitBy(spell);
-        printDamage(spell, target, damage);
+    std::list<Target*> targets;
+    targets.push_back(new ArmorKnight());
+    targets.push_back(new Ogre());
+
+    int deaths = 0;
+    while (deaths < targets.size()) {
+        for (Target* target : targets) {
+            if (target->getHp() == 0) {
+                continue;
+            }
+            for (Spell* spell : spells) {
+                int damage = target->hitBy(spell);
+                printDamage(spell, target, damage);
+                if (target->getHp() == 0) {
+                    cout << target->getName() << " уничтожен." << endl;
+                    ++deaths;
+                    break;
+                }
+            }
+            cout << endl;
+        }
     }
 
     return 0;

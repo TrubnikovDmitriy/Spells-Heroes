@@ -38,8 +38,8 @@ class Target {
          * @param spell атакующее заклинание
          * @return количество нанесенного урона damage
          */
-        int hitBy(Spell* spell) {
-            int damage = spell->getDamage();
+        virtual int hitBy(Spell* spell) {
+            int damage = spell->getDamage(hp, maxHp);
             dealDamage(damage);
             return damage;
         }
