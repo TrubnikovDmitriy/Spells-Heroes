@@ -3,6 +3,7 @@
 
 #include <string>
 #include "../spells/Spell.cpp"
+#include "../spells/Fireball.cpp"
 
 using namespace std;
 
@@ -21,6 +22,21 @@ class Target {
             }
         }
 
+        /**
+         * Получает значение урона от заклинания и наносит его себе.
+         *
+         * Убрано из публичного API, чтобы заставить вызывать либо
+         * конкретные заклинания, либо [Spell#attack] самого заклинания.
+         *
+         * @param spell атакующее заклинание
+         * @return количество нанесенного урона damage
+         */
+        virtual int hitBySpell(Spell* spell) {
+            int damage = spell->getDamage(hp, maxHp);
+            dealDamage(damage);
+            return damage;
+        }
+
     public:
         string getName() { return this->name; }
         int getMaxHp() { return this->maxHp; }
@@ -32,16 +48,16 @@ class Target {
             this->hp = maxHp;
         }
 
-        /**
-         * Получает значение урона от заклинания и наносит его себе.
-         *
-         * @param spell атакующее заклинание
-         * @return количество нанесенного урона damage
-         */
-        virtual int hitBy(Spell* spell) {
-            int damage = spell->getDamage(hp, maxHp);
-            dealDamage(damage);
-            return damage;
+        virtual int hitBy(Fireball* spell) {
+            return hitBySpell(spell);
+        }
+
+        virtual int hitBy(LifeDrain* spell) {
+            return hitBySpell(spell);
+        }
+
+        virtual int hitBy(PoisonCloud* spell) {
+            return hitBySpell(spell);
         }
 };
 

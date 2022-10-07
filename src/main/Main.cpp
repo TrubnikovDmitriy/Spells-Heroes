@@ -8,6 +8,9 @@
 #include "targets/Target.cpp"
 #include "targets/ArmorKnight.cpp"
 #include "targets/Ogre.cpp"
+#include "targets/StoneGolem.cpp"
+
+#include "hack.cpp"
 
 using namespace std;
 
@@ -24,6 +27,7 @@ int main() {
     std::list<Target*> targets;
     targets.push_back(new ArmorKnight());
     targets.push_back(new Ogre());
+    targets.push_back(new StoneGolem());
 
     int deaths = 0;
     while (deaths < targets.size()) {
@@ -32,7 +36,7 @@ int main() {
                 continue;
             }
             for (Spell* spell : spells) {
-                int damage = target->hitBy(spell);
+                int damage = spell->attack(target);
                 printDamage(spell, target, damage);
                 if (target->getHp() == 0) {
                     cout << target->getName() << " уничтожен." << endl;

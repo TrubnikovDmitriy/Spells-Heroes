@@ -7,6 +7,8 @@ class LifeDrain : public Spell {
     public:
         LifeDrain() : Spell("LifeDrain") {};
 
+        int attack(Target* target) override;
+
         int getDamage(int hp, int maxHp) override {
             int damage = hp / 10;
             if (damage <= 0) {

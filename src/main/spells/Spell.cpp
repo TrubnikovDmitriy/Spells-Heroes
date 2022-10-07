@@ -5,6 +5,8 @@
 
 using namespace std;
 
+class Target; // Чтобы избежать циклических зависимостей
+
 class Spell {
     private:
         string name;
@@ -17,6 +19,7 @@ class Spell {
         }
 
         virtual int getDamage(int hp, int maxHp) = 0;
+        virtual int attack(Target* target) = 0;
 };
 
 #endif
